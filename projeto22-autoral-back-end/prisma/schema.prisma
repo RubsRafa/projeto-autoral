@@ -1,0 +1,120 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Comments {
+  id        Int      @id @default(autoincrement())
+  comment   String
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_comments_post")
+  Users     Users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_comments_user")
+}
+
+model Follows {
+  id                                 Int   @id @default(autoincrement())
+  userId                             Int
+  userIdIFollow                      Int
+  Users_Follows_userIdToUsers        Users @relation("Follows_userIdToUsers", fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_follows_user")
+  Users_Follows_userIdIFollowToUsers Users @relation("Follows_userIdIFollowToUsers", fields: [userIdIFollow], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_follows_user_followed")
+}
+
+model Likes {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_likes_post")
+  Users     Users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_likes_user")
+}
+
+model PostType {
+  id    Int     @id @default(autoincrement())
+  type  String  @unique
+  Posts Posts[]
+}
+
+model Posts {
+  id               Int        @id @default(autoincrement())
+  userId           Int
+  type             Int
+  video            String?
+  image            String?
+  text             String?    @db.VarChar
+  isReposted       Boolean    @default(false)
+  repostedById     Int?
+  repostedByName   String?
+  repostedByImage  String?       
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @default(now())
+  Comments         Comments[]
+  Likes            Likes[]
+  PostType         PostType   @relation(fields: [type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_posttype")
+  Users            Users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_user")
+  Reposts          Reposts[]
+}
+
+model Reposts {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  Posts     Posts    @relation(fields: [postId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reposts_post")
+  Users     Users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_reposts_user")
+}
+
+model Sessions {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+  Users     Users    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_sessions_user")
+}
+
+model Users {
+  id                                   Int        @id @default(autoincrement())
+  name                                 String     @db.VarChar(250)
+  email                                String     @unique
+  password                             String
+  image                                String
+  birthday                             DateTime?  @db.Timestamp(6)
+  Comments                             Comments[]
+  Follows_Follows_userIdToUsers        Follows[]  @relation("Follows_userIdToUsers")
+  Follows_Follows_userIdIFollowToUsers Follows[]  @relation("Follows_userIdIFollowToUsers")
+  Likes                                Likes[]
+  Posts                                Posts[]
+  Reposts                              Reposts[]
+  Sessions                             Sessions[]
+  Health                               Health[] 
+  Chat_Chat_fromIdToUsers             Chat[]     @relation("Chat_fromIdToUsers")
+  Chat_Chat_toIdToUsers               Chat[]     @relation("Chat_toIdToUsers")
+}
+
+model Health {
+  id      Int          @id @default(autoincrement())
+  userId  Int
+  date    DateTime     @default(now())   
+  text    String?      @db.VarChar(250)
+  color   String       @default("gray")
+  mood    Int          @default(3)  
+  Users   Users        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_health_user")           
+}
+
+model Chat {
+  id                               Int         @id @default(autoincrement())
+  fromId                           Int         
+  toId                             Int
+  message                          String      @db.VarChar(250)
+  time                             DateTime    @default(now())
+  Chat_fromIdToUsers               Users       @relation("Chat_fromIdToUsers", fields: [fromId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_chat_user_from")
+  Chat_toIdToUsers                 Users       @relation("Chat_toIdToUsers", fields: [toId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_chat_user_to")
+}

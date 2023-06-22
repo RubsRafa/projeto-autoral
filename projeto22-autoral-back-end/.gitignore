@@ -1,0 +1,8 @@
+node_modules
+dist
+coverage
+requirements
+.vscode
+.env
+.env.development
+.env.test
