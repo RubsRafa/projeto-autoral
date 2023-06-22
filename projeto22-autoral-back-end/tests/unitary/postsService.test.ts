@@ -117,8 +117,6 @@ describe('postsService test suite', () => {
       jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
 
       const response = await postsService.getPostsService(user.id);
-      console.log('response', response);
-      console.log(posts);
 
       expect(getAllPostsMock).toHaveBeenCalled();
       expect(getAllRepostsMock).toHaveBeenCalled();
