@@ -14,7 +14,7 @@ jobs:
           envkey_POSTGRES_DATABASE: "autoral_test"
           envket_POSTGRES_PORT: "5432"
           envkey_DATABASE_URL: "postgresql://postgres:postgres@postgres:5432/autoral_test?schema=public"
-          envkey_JWT_SECRET: "top_friendly_secret"
+          envkey_JWT_SECRET: "secret-key"
           directory: projeto22-autoral-back-end
           file_name: .env.test
           fail_on_empty: true
