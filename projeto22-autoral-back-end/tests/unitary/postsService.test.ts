@@ -51,9 +51,7 @@ describe('postsService test suite', () => {
 
       const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
       const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockImplementationOnce((): any => {
-        return [];
-      });
+      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValue([]);
 
       const response = await postsService.getPostsService(user.id);
 
@@ -119,6 +117,8 @@ describe('postsService test suite', () => {
       jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
 
       const response = await postsService.getPostsService(user.id);
+      console.log('response', response);
+      console.log(posts);
 
       expect(getAllPostsMock).toHaveBeenCalled();
       expect(getAllRepostsMock).toHaveBeenCalled();

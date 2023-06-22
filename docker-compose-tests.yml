@@ -6,7 +6,7 @@ services:
     ports:
       - 5433:5432
     env_file:
-      - ./projeto22-autoral-back-end/.env
+      - ./projeto22-autoral-back-end/.env.test
     volumes:
       - postgres-volume:/var/lib/postgresql/data
 
@@ -18,7 +18,7 @@ services:
     depends_on:
       - postgres
     env_file:
-      - ./projeto22-autoral-back-end/.env
+      - ./projeto22-autoral-back-end/.env.test
 
 volumes:
   postgres-volume:

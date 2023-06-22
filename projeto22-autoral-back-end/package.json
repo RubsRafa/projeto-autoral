@@ -9,7 +9,7 @@
     "prepare": "husky install",
     "lint": "eslint . --fix",
     "lint:staged": "lint-staged",
-    "test": "npm run test:migration:run && cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
+    "test": "npm run test:migration:generate && cross-env NODE_ENV=test jest --passWithNoTests --runInBand",
     "test:coverage": "cross-env NODE_ENV=test jest --passWithNoTests --runInBand --coverage --collectCoverageFrom='./src/**'",
     "test:load-envs": "dotenv -e .env.test",
     "test:migration:run": "npm run test:load-envs prisma migrate deploy",
