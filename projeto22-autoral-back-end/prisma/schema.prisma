@@ -24,6 +24,7 @@ model Follows {
   userIdIFollow                      Int
   Users_Follows_userIdToUsers        Users @relation("Follows_userIdToUsers", fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_follows_user")
   Users_Follows_userIdIFollowToUsers Users @relation("Follows_userIdIFollowToUsers", fields: [userIdIFollow], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_follows_user_followed")
+  @@index([userId])
 }
 
 model Likes {
@@ -60,6 +61,7 @@ model Posts {
   PostType         PostType   @relation(fields: [type], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_posttype")
   Users            Users      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_posts_user")
   Reposts          Reposts[]
+  @@index([userId])
 }
 
 model Reposts {
@@ -97,6 +99,7 @@ model Users {
   Health                               Health[] 
   Chat_Chat_fromIdToUsers             Chat[]     @relation("Chat_fromIdToUsers")
   Chat_Chat_toIdToUsers               Chat[]     @relation("Chat_toIdToUsers")
+  @@index([name])
 }
 
 model Health {
@@ -117,4 +120,5 @@ model Chat {
   time                             DateTime    @default(now())
   Chat_fromIdToUsers               Users       @relation("Chat_fromIdToUsers", fields: [fromId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_chat_user_from")
   Chat_toIdToUsers                 Users       @relation("Chat_toIdToUsers", fields: [toId], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "fk_chat_user_to")
+  @@index([fromId, toId])
 }
