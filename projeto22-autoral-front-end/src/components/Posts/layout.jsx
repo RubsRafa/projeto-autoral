@@ -4,25 +4,37 @@ export const NoContent = styled.div`
 margin: 100px auto;
 font-family: 'Montserrat', sans-serif;
 font-size: 30px;
+@media(max-width: 700px){
+    margin: 75px auto;
+    font-size: 24px;
+}
 `;
 export const BoxPost = styled.div`
 background-color: #1E1E1E;
 padding: 10px;
-min-width: 40px;
-max-width: 500px;
+width: clamp(220px, 65%, 600px);
 border-radius: 10px;
 margin: 20px auto;
 font-family: 'Montserrat', sans-serif;
+@media(max-width: 450px){
+    width: 100%;
+}
 h1{
     font-size: 12px;
     margin: 3px 0 0 8px;
     :hover{
         cursor: pointer;
     }
+    @media(max-width: 700px){
+        font-size: 10px;
+    }
 }
 h2{
     font-size: 15px;
     margin: 8px 0 0 10px;
+    @media(max-width: 700px){
+        font-size: 13px;
+    }
 }
 `;
 export const RepostBox = styled.div`
@@ -32,6 +44,24 @@ font-size: 12px;
 display: flex;
 flex-wrap: nowrap;
 position: relative;
+@media(max-width: 700px){
+    h1{
+        font-size: 10px;
+        align-self: center;
+    }
+    h2{
+        font-size: 10px;
+        align-self: center;
+    }
+    img{
+        width: 16px;
+        height: 16px;
+    }
+    button{
+        width: 18px;
+        height: 18px;
+    }
+}
 h1{
     font-weight: 700;
 }
@@ -80,6 +110,12 @@ img{
     border-radius: 50%;
     margin-bottom: 2px;
     object-fit: cover;
+}
+@media(max-width: 700px){
+    img{
+        width: 40px;
+        height: 40px;
+    }
 }
 `;
 export const ConfigBox = styled.div`

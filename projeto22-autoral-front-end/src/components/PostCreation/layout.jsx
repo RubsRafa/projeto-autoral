@@ -5,6 +5,19 @@ display: flex;
 width: 100%;
 justify-content: space-between;
 margin: 7px 0 7px 7px;
+@media(max-width: 700px){
+  div{
+    justify-content: space-around;
+  }
+  button{
+    height: 20px;
+    width: 75px;
+  }
+  input{
+    height: 20px;
+    width: 100%;
+  }
+}
 div{
     align-self: flex-end;
 }
@@ -36,7 +49,7 @@ input{
   box-shadow: 0 0 .4vw rgba(0,0,0,0.5), 0 0 0 .15vw transparent;
   border-radius: 10px;
   border: none;
-  width: 165%;
+  max-width: 165%;
   outline: none;
   padding: 6px;
   height: 25px;

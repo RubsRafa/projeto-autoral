@@ -8,8 +8,29 @@ flex-wrap: nowrap;
 flex-direction: column;
 background-color: #111111;
 position: fixed;
+z-index: 2;
 h1{
    display: none;
+}
+@media(max-width: 700px){
+   position: fixed;
+   bottom: 0;
+   width: 100vw;
+   height: 80px;
+   display: flex;
+   flex-wrap: nowrap;
+   flex-direction: row;
+   justify-content: space-around;
+   h1{
+      display: none;
+   }
+   :hover{
+      width: 100vw;
+      height: 80px;
+      h1{
+         display: none;
+      }
+   }
 }
 :hover{
    width: 160px;
@@ -24,6 +45,16 @@ h1{
    }
    button{
       margin-left: 10px;
+   }
+   @media(max-width: 700px){
+      transition: none;
+      width: 100vw;
+      h1{
+         display: none;
+      }
+      button{
+         margin-left: 0;
+      }
    }
 }
 `;
@@ -40,6 +71,13 @@ export const Options = styled.button`
     background: rgba(100, 100, 100, 0.8);
     border-radius: 20px;
     transition: all 0.4s ease-in-out;
+    @media(max-width: 700px){
+      transition: none;
+    }
+ }
+ @media(max-width: 700px){
+   width: 50px;
+   height: 50px;
  }
 `;
 export const Box = styled.div`
@@ -51,5 +89,17 @@ justify-content: space-around;
    transition: all 0.4s ease-in-out;
    background: rgba(30, 30, 30, 0.8);
    border-radius: 10px;
+   @media(max-width: 700px){
+      height: 30px;
+      background-color: transparent;
+   }
+}
+@media(max-width: 700px){
+   :hover{
+      transition: none;
+      max-width: fit-content;
+      justify-content: center;
+      height: fit-content;
+   }
 }
 `;

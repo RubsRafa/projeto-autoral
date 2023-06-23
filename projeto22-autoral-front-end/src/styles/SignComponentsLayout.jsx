@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const Box = styled.div`
-width: 520px;
+width: clamp(200px, 50%, 520px);
 height: 540px;
 border-radius: 15px;
 display: block;
@@ -13,21 +13,38 @@ box-shadow: 0px 0px 16px 1px #ffffff;
 font-family: 'Montserrat', sans-serif;
     
 h1{
-    margin-top: ${props => props.margin ? '60px' : '30px'}
+    margin-top: ${props => props.margin ? '60px' : '30px'};
+    @media(max-width: 700px) {
+        font-size: 13px;
+        margin-top: 20px;
+    }
 }
 h2{
     margin: 5px 0;
-    font-size: 20px;
+    font-size: clamp(16px, 4%, 20px);
+    @media(max-width: 700px) {
+        font-size: 13px;
+        margin-top: 20px;
+    }
 }
 h3{
     margin: 5px 0;
     text-decoration: underline;
+    @media(max-width: 700px) {
+        font-size: 12px;
+        margin: 5px 5px;
+    }
 }
 img {
     width: 100px;
     height: 100px;
     border-radius: 50px;
     object-fit: cover;
+    @media(max-width: 700px) {
+        margin-top: 10px;
+        max-width: 60px;
+        max-height: 60px;
+    }
 }
 input{
   margin: 5px auto;
@@ -56,6 +73,13 @@ input{
   :focus {
   box-shadow: 0 0 0 .15vw skyblue;
   }
+  @media(max-width: 700px) {
+    height: 20px;
+    font-size: 12px;
+    ::placeholder{
+        font-size: 12px;
+    }
+  }
 }
 button{
     margin: 10px auto;
@@ -66,5 +90,9 @@ button{
     border: none;
     border-radius: 50px;
     background: #e0e0e0;
+    @media(max-width: 700px) {
+        height: 20px;
+        font-size: 13px;
+    }
 }
 `;

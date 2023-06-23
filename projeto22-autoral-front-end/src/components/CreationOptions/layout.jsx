@@ -6,10 +6,15 @@ flex-direction: column;
 justify-content: space-evenly;
 background-color: #1E1E1E;
 padding: 4px;
-min-width: 40px;
-max-width: 500px;
+width: clamp(220px, 65%, 600px);
 border-radius: 10px;
 margin: 0 auto;
+@media(max-width: 450px){
+    width: 100%;
+}
+@media(max-width: 700px){
+  padding: 2px;
+}
 `;
 export const Option = styled.div`
 background-color: grey;
@@ -34,6 +39,18 @@ h1{
     font-weight: 700;
     font-size: 15px;
 }
+@media(max-width: 700px){
+  height: 18px;
+  margin: 5px 0;
+  h1{
+    font-size: 12px;
+  }
+}
+@media(max-width: 300px){
+  h1{
+    display: none;
+  }
+}
 `;
 export const CreationBoxText = styled.div`
 width: 100%;
@@ -41,6 +58,18 @@ border-radius: 10px;
 display: flex;
 flex-wrap: nowrap;
 justify-content: start;
+@media(max-width: 700px){
+  img{
+    width: 40px;
+    height: 40px;
+  }
+  input{
+    padding: 3px;
+    font-size: 12px;
+    height: 20px;
+    width: 90%;
+  }
+}
 img{
     width: 50px;
     height: 50px;
