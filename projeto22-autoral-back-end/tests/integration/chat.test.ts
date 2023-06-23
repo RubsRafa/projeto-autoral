@@ -74,7 +74,7 @@ describe('GET /chat/users', () => {
                         name: otherUser.name,
                         image: otherUser.image,
                     },
-                    message: message.message
+                    message: otherMessage.message
                 },
             ])
         });
