@@ -9,5 +9,8 @@ export const Logo = styled.div`
 h1{
     font-size: 80px;
     font-family: 'Caveat', cursive;
+    @media(max-width: 700px){
+    font-size: 50px;
+    }
 }
 `;

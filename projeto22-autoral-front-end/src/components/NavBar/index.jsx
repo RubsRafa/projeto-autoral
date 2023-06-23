@@ -12,7 +12,7 @@ export default function NavBar() {
     const { userId, setUserIdPage } = useContext(Context);
     const id = localStorage.getItem('userId') || userId;
     const color = '#fff';
-    const size = 30;
+    const size = 20;
     return (
         <Bar>
             <Box>

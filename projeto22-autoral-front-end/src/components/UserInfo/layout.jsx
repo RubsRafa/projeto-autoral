@@ -15,6 +15,18 @@ border-radius: 10px;
 margin: 40px auto;
 padding: 10px;
 max-width: 300px;
+@media(max-width: 700px) {
+    img{
+        width: 60px;
+        height: 60px;
+    }
+    h1{
+        font-size: 18px;
+    }
+    h2{
+        font-size: 13px;
+    }
+}
 img{
     width: 120px;
     height: 120px;

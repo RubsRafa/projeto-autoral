@@ -9,7 +9,7 @@ export default function Feed() {
         <Container>
             <NavBar />
             <OutNavBar>
-                <Logo><h1>Friendly</h1></Logo>
+                {/* <Logo><h1>Friendly</h1></Logo> */}
                 <MainContainer>
                     <Timeline refresh={refresh} setRefresh={setRefresh} />
                     {/* <MainInfo>
