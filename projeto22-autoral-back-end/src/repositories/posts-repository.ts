@@ -12,6 +12,16 @@ export async function getAllPosts() {
           image: true,
         },
       },
+      Likes: {
+        select: {
+          id: true,
+        },
+      },
+      Comments: {
+        select: {
+          id: true,
+        },
+      },
     },
     orderBy: {
       updatedAt: 'desc',

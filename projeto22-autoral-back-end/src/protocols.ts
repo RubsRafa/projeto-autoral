@@ -85,6 +85,8 @@ export type PostsReturn = {
     name: string;
     image: string;
   };
+  Likes: number;
+  Comment: number;
   repostedById: number;
   repostedByName: string;
   repostedByImage: string;

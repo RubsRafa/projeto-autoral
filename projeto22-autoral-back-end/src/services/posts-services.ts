@@ -36,6 +36,8 @@ export async function getPostsService(userId: number) {
           updatedAt: repost.updatedAt,
           PostType: post.PostType,
           Users: post.Users,
+          Likes: post.Likes.length,
+          Comment: post.Comments.length,
           repostedById: repost.userId,
           repostedByName: repost.Users.name,
           repostedByImage: repost.Users.image,
@@ -44,7 +46,28 @@ export async function getPostsService(userId: number) {
     }
   }
 
-  const results: PostsReturn[] = reposts.concat(posts);
+  const updatedPosts = posts.map((p) => {
+    return {
+      id: p.id,
+      userId: p.Users.id,
+      type: p.PostType.id,
+      video: p.video,
+      image: p.image,
+      text: p.text,
+      isReposted: true,
+      createdAt: p.createdAt,
+      updatedAt: p.updatedAt,
+      PostType: p.PostType,
+      Users: p.Users,
+      Likes: p.Likes.length,
+      Comment: p.Comments.length,
+      repostedById: p.userId,
+      repostedByName: p.Users.name,
+      repostedByImage: p.Users.image,
+    }
+  })
+
+  const results: PostsReturn[] = reposts.concat(updatedPosts);
   const myFollows = await getAllFollows(userId);
 
   const myPosts: PostsReturn[] = [];
