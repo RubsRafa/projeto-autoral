@@ -37,6 +37,7 @@ export default function Posts({ refresh, setRefresh, id, isTimeline }) {
         try {
             setLoading(true);
             const getAllPosts = await getAllPostsApi(token);
+            console.log(getAllPosts);
             setAllPosts(getAllPosts);
             setExistPost(getAllPosts.length);
 

@@ -54,7 +54,7 @@ export async function getPostsService(userId: number) {
       video: p.video,
       image: p.image,
       text: p.text,
-      isReposted: true,
+      isReposted: false,
       createdAt: p.createdAt,
       updatedAt: p.updatedAt,
       PostType: p.PostType,
@@ -78,7 +78,7 @@ export async function getPostsService(userId: number) {
       myPosts.push(post);
     }
   }
-
+  
   const filterPostsFromFollows: PostsReturn[] = [];
 
   if (myFollows.length !== 0) {

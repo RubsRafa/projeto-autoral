@@ -10,10 +10,10 @@ export default function PostInfoComponent({ setShowLikes, p, openComment, showLi
         <PostInfo>
             <div onClick={() => setShowLikes(!showLikes)}>
                 <BsStars color="yellow" />
-                {/* <h1 id={`users_like${p.id}`}>{p.Likes.length} pessoas</h1> */}
+                <h1 id={`users_like${p.id}`}>{p.Likes} pessoas</h1>
             </div>
             <div onClick={() => { openComment(p.id) }}>
-                {/* <h1>{p.Comments.length} comentários</h1> */}
+                <h1>{p.Comments} comentários</h1>
             </div>
 
             <ReactTooltip
