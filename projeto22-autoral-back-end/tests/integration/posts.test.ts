@@ -83,6 +83,8 @@ describe('GET /posts', () => {
             name: user.name,
             image: user.image,
           },
+          Likes: expect.any(Number),
+          Comments: expect.any(Number),
           repostedById: null,
           repostedByName: null,
           repostedByImage: null,
@@ -118,6 +120,8 @@ describe('GET /posts', () => {
             name: userIFollow.name,
             image: userIFollow.image,
           },
+          Likes: expect.any(Number),
+          Comments: expect.any(Number),
           repostedById: null,
           repostedByName: null,
           repostedByImage: null,
@@ -188,7 +192,7 @@ describe('GET /posts/user/:userId', () => {
           updatedAt: expect.any(String),
           PostType: {
             id: 1,
-            type: expect.any(String),
+            type: "Text",
           },
           Users: {
             id: findUser.id,

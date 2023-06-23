@@ -37,7 +37,7 @@ export async function getPostsService(userId: number) {
           PostType: post.PostType,
           Users: post.Users,
           Likes: post.Likes.length,
-          Comment: post.Comments.length,
+          Comments: post.Comments.length,
           repostedById: repost.userId,
           repostedByName: repost.Users.name,
           repostedByImage: repost.Users.image,
@@ -60,10 +60,10 @@ export async function getPostsService(userId: number) {
       PostType: p.PostType,
       Users: p.Users,
       Likes: p.Likes.length,
-      Comment: p.Comments.length,
-      repostedById: p.userId,
-      repostedByName: p.Users.name,
-      repostedByImage: p.Users.image,
+      Comments: p.Comments.length,
+      repostedById: null,
+      repostedByName: null,
+      repostedByImage: null,
     }
   })
 
@@ -78,7 +78,7 @@ export async function getPostsService(userId: number) {
       myPosts.push(post);
     }
   }
-  
+
   const filterPostsFromFollows: PostsReturn[] = [];
 
   if (myFollows.length !== 0) {

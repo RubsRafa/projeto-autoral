@@ -86,10 +86,10 @@ export type PostsReturn = {
     image: string;
   };
   Likes: number;
-  Comment: number;
-  repostedById: number;
-  repostedByName: string;
-  repostedByImage: string;
+  Comments: number;
+  repostedById: number | null;
+  repostedByName: string | null;
+  repostedByImage: string | null;
 };
 
 export type RepostReturn = {

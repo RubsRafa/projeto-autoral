@@ -87,7 +87,35 @@ export function returnBodyPost(user: Users, body: PostParams): Posts {
   };
 }
 
-export function returnGetPosts(otherUser: Users): PostsReturn {
+export function returnGetPosts(post: any, otherUser: Users): PostsReturn {
+  return {
+    id: post.id,
+    userId: otherUser.id,
+    type: post.type,
+    video: post.video,
+    image: post.image,
+    text: post.text,
+    isReposted: post.isReposted,
+    createdAt: post.createdAt,
+    updatedAt: post.updatedAt,
+    PostType: {
+      id: post.PostType.id,
+      type: post.PostType.type,
+    },
+    Users: {
+      id: post.Users.id,
+      name: post.Users.name,
+      image: post.Users.image,
+    },
+    Likes: 1,
+    Comments: 1,
+    repostedById: null,
+    repostedByName: null,
+    repostedByImage: null,
+  };
+}
+
+export function returnGetAllPosts(otherUser: Users) {
   return {
     id: faker.number.int({ max: 50 }),
     userId: otherUser.id,
@@ -107,8 +135,10 @@ export function returnGetPosts(otherUser: Users): PostsReturn {
       name: faker.internet.displayName(),
       image: faker.internet.avatar(),
     },
-    repostedById: otherUser.id,
-    repostedByName: otherUser.name,
-    repostedByImage: otherUser.image,
+    Likes: [{ id: 1}],
+    Comments: [{ id: 1}],
+    repostedById: faker.datatype.boolean({ probability: 0}),
+    repostedByName: faker.datatype.boolean({ probability: 0}),
+    repostedByImage: faker.datatype.boolean({ probability: 0}),
   };
 }
