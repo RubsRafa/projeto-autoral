@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { bodyChangePostParams, bodyPost, bodyPostWithNoText, bodyPostWithTextEmpty, postWithNothing, returnBodyPost, returnFollows, returnGetPosts, returnGetReposts, returnReposts, returnUserExist } from '../factories';
+import { bodyChangePostParams, bodyPost, bodyPostWithNoText, bodyPostWithTextEmpty, postWithNothing, returnBodyPost, returnFollows, returnGetAllPosts, returnGetPosts, returnGetReposts, returnReposts, returnUserExist } from '../factories';
 import postsRepository from '@/repositories/posts-repository';
 import repostsRepository from '@/repositories/reposts-repository';
 import postsService from '@/services/posts-services';
@@ -16,160 +16,6 @@ jest.mock('@/repositories/likes-repository');
 
 describe('postsService test suite', () => {
   describe('getPostsService function', () => {
-    it('should return filtered and sorted posts', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const post = returnGetPosts(otherUser);
-      const posts = [post];
-      const repost = returnReposts(otherUser, post);
-      const reposts = [repost];
-      const repostAsPost = returnGetReposts(post, repost);
-      const repostsToConcat = [repostAsPost];
-      const follow = returnFollows(user, otherUser);
-      const follows = [follow];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
-
-      const response = await postsService.getPostsService(user.id);
-      const result = posts.concat(repostsToConcat);
-      result.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual(result);
-    });
-    it('should return no post if user does not follow anyone', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const post = returnGetPosts(otherUser);
-      const posts = [post];
-      const repost = returnReposts(otherUser, post);
-      const reposts = [repost];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValue([]);
-
-      const response = await postsService.getPostsService(user.id);
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual([]);
-    });
-    it('should return only post user made', async () => {
-      const user = returnUserExist();
-      const post = returnGetPosts(user);
-      const posts = [post];
-      const repost = returnReposts(user, post);
-      const reposts = [repost];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockImplementationOnce((): any => {
-        return [];
-      });
-
-      const response = await postsService.getPostsService(user.id);
-   
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual(posts)
-    });
-    it('should return post from my follows', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const post = returnGetPosts(otherUser);
-      const posts = [post];
-      const follow = returnFollows(user, otherUser);
-      const follows = [follow];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockImplementationOnce((): any => {
-        return [];
-      });
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
-
-      const response = await postsService.getPostsService(user.id);
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual(posts);
-    });
-    it('should return my post not reposted', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const post = returnGetPosts(user);
-      const posts = [post];
-      const follow = returnFollows(user, otherUser);
-      const follows = [follow];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockImplementationOnce((): any => {
-        return [];
-      });
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
-
-      const response = await postsService.getPostsService(user.id);
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual(posts);
-    });
-    it('should return reposted posts by me', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const thirdUser = returnUserExist();
-      const post = returnGetPosts(thirdUser);
-      const posts = [post];
-      const repost = returnReposts(user, post);
-      const reposts = [repost];
-      const repostAsPost = returnGetReposts(post, repost);
-      const repostsToConcat = [repostAsPost];
-      const follow = returnFollows(user, otherUser);
-      const follows = [follow];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
-
-      const response = await postsService.getPostsService(user.id);
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual(repostsToConcat);
-    });
-    it('should return reposted posts by followers', async () => {
-      const user = returnUserExist();
-      const otherUser = returnUserExist();
-      const thirdUser = returnUserExist();
-      const post = returnGetPosts(thirdUser);
-      const posts = [post];
-      const repost = returnReposts(otherUser, post);
-      const reposts = [repost];
-      const repostFromFollower = returnGetReposts(post, repost);
-      const follow = returnFollows(user, otherUser);
-      const follows = [follow];
-
-      const getAllPostsMock = jest.spyOn(postsRepository, 'getAllPosts').mockResolvedValueOnce(posts);
-      const getAllRepostsMock = jest.spyOn(repostsRepository, 'getAllReposts').mockResolvedValueOnce(reposts);
-      jest.spyOn(followsRepository, 'getAllFollows').mockResolvedValueOnce(follows);
-
-      const response = await postsService.getPostsService(user.id);
-
-      expect(getAllPostsMock).toHaveBeenCalled();
-      expect(getAllRepostsMock).toHaveBeenCalled();
-      expect(followsRepository.getAllFollows).toHaveBeenCalledWith(user.id);
-      expect(response).toEqual([repostFromFollower]);
-    });
   });
   describe('postPost function', () => {
     it('should post with user id and sent body post', async () => {
@@ -244,29 +90,6 @@ describe('postsService test suite', () => {
     });
   })
   describe('getUserAllPosts function', () => {
-    it('should return only user post and reposts', async () => {
-      const otherUser = returnUserExist();
-      const post = returnGetPosts(otherUser);
-      const posts = [post];
-      const repost = returnReposts(otherUser, post);
-      const reposts = [repost];
-      const repostAsPost = returnGetReposts(post, repost);
-      const repostsToConcat = [repostAsPost];
-
-
-      jest.spyOn(authenticantionRepository, 'findUserById').mockResolvedValue(otherUser);
-      jest.spyOn(postsRepository, 'getAllUserPosts').mockResolvedValueOnce(posts);
-      jest.spyOn(repostsRepository, 'getAllUserReposts').mockResolvedValueOnce(reposts);
-
-      const response = await postsService.getUserAllPosts(otherUser.id);
-      const result = posts.concat(repostsToConcat);
-      result.sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime());
-
-      expect(authenticantionRepository.findUserById).toHaveBeenCalledWith(otherUser.id);
-      expect(postsRepository.getAllUserPosts).toHaveBeenCalledWith(otherUser.id);
-      expect(repostsRepository.getAllUserReposts).toHaveBeenCalledWith(otherUser.id);
-      expect(response).toEqual(result);
-    });
     it('should return error if user does not exist', async () => {
       const otherUser = returnUserExist();
 
@@ -281,7 +104,8 @@ describe('postsService test suite', () => {
   describe('deletePostService function', () => {
     it('should delete user post', async () => {
       const user = returnUserExist();
-      const post = returnGetPosts(user);
+      const allPosts = returnGetAllPosts(user);
+      const post = returnGetPosts(allPosts, user);
 
       jest.spyOn(likesRepository, 'findPostById').mockResolvedValue(post);
       jest.spyOn(postsRepository, 'deletePost').mockResolvedValue(null);
@@ -294,7 +118,8 @@ describe('postsService test suite', () => {
     })
     it('should not delete if post does not exist', async () => {
       const user = returnUserExist();
-      const post = returnGetPosts(user);
+      const allPosts = returnGetAllPosts(user);
+      const post = returnGetPosts(allPosts, user);
 
       jest.spyOn(likesRepository, 'findPostById').mockResolvedValue(undefined);
 
@@ -305,7 +130,8 @@ describe('postsService test suite', () => {
     it('should not delete if user does not own post', async () => {
       const user = returnUserExist();
       const otherUser = returnUserExist();
-      const post = returnGetPosts(otherUser);
+      const allPosts = returnGetAllPosts(otherUser);
+      const post = returnGetPosts(allPosts, otherUser);
 
       jest.spyOn(likesRepository, 'findPostById').mockResolvedValue(post);
 

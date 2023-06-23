@@ -85,9 +85,11 @@ export type PostsReturn = {
     name: string;
     image: string;
   };
-  repostedById: number;
-  repostedByName: string;
-  repostedByImage: string;
+  Likes: number;
+  Comments: number;
+  repostedById: number | null;
+  repostedByName: string | null;
+  repostedByImage: string | null;
 };
 
 export type RepostReturn = {

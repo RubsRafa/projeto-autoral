@@ -56,6 +56,8 @@ export function returnGetReposts(post: PostsReturn, repost: RepostReturn): Posts
     updatedAt: repost.updatedAt,
     PostType: post.PostType,
     Users: post.Users,
+    Likes: 1,
+    Comments: 1,
     repostedById: repost.Users.id,
     repostedByName: repost.Users.name,
     repostedByImage: repost.Users.image,
