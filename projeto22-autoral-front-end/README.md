@@ -68,9 +68,3 @@ npm start
 
 - Hora de conversar com seus amigos! 
 - Aqui você encontrará tanto os usuários que você segue, como usuários que te mandaram mensagem.
-
-
-
-
-<h1>Aplicação para interagir com os amigos e se divertir!</h1>
-<img src='autoral.gif' />
